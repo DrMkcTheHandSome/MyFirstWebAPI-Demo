@@ -5,6 +5,7 @@ using Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
@@ -19,16 +20,23 @@ namespace WebAPI.Controllers
             _schoolService = schoolService ?? throw new ArgumentNullException(nameof(schoolService));
         }
 
-        [Route("create")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //// GET api/values // For Testing
+        //[HttpGet]
+        //public ActionResult<IEnumerable<string>> Get()
+        //{
+        //    return new string[] { "value1", "value2" };
+        //}
+
+        [HttpPost("", Name = "createSchool")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public IActionResult CreateSchool([FromBody] SchoolDTO schoolDTO)
         {
             try
             {
-              
+
                 var newSchool = _schoolService.CreateSchool(schoolDTO);
-                return CreatedAtAction(nameof(CreateSchool), newSchool);
+                return CreatedAtAction(nameof(CreateSchool), schoolDTO);
             }
             catch (Exception ex)
             {
@@ -36,16 +44,16 @@ namespace WebAPI.Controllers
             }
         }
 
-        [Route("update")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPut("", Name = "updateSchool")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public IActionResult UpdateSchool([FromBody] SchoolDTO schoolDTO)
         {
             try
             {
 
                 var newSchool = _schoolService.UpdateSchool(schoolDTO);
-                return CreatedAtAction(nameof(UpdateSchool), newSchool);
+                return CreatedAtAction(nameof(UpdateSchool), schoolDTO);
             }
             catch (Exception ex)
             {
@@ -53,15 +61,15 @@ namespace WebAPI.Controllers
             }
         }
 
-
-        [Route("read")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult ReadSchool([FromBody] Guid schoolId)
+        [HttpGet("", Name = "getSchool")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public IActionResult ReadSchool([FromQuery] Guid id)
         {
             try
             {
-                var school = _schoolService.ReadSchool(schoolId);
+
+                var school = _schoolService.ReadSchool(id);
                 return Ok(school);
             }
             catch (Exception ex)
@@ -70,13 +78,15 @@ namespace WebAPI.Controllers
             }
         }
 
-        [Route("delete")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult DeleteSchool([FromBody] Guid id)
+
+        [HttpPatch("", Name = "deleteSchool")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public IActionResult DeleteSchool([FromQuery] Guid id)
         {
             try
             {
+
                 _schoolService.DeleteSchool(id);
                 return Ok();
             }
@@ -85,5 +95,8 @@ namespace WebAPI.Controllers
                 return BadRequest(ex.ToString());
             }
         }
+
+
+
     }
 }
