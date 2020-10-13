@@ -10,5 +10,9 @@ Update Database Procedure
 
 ![Update Database](/Update-Database.PNG)
 
+Check Microsoft SQL Server if the database is created
+
+![Database](/Database.PNG)
+
 My First WEB API CRUD - Result
 ![My First WebAPI](/API.PNG)
