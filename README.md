@@ -10,7 +10,7 @@ Update Database Procedure
 
 ![Update Database](/Update-Database.PNG)
 
-Check Microsoft SQL Server if the database is created
+Check Microsoft SQL Server if the database was created
 
 ![Database](/Database.PNG)
 
